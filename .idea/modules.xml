@@ -2,10 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Medicine-Time.iml" filepath="$PROJECT_DIR$/.idea/Medicine-Time.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Medicine-Time-.iml" filepath="$PROJECT_DIR$/Medicine-Time-.iml" group="Medicine-Time-" />
-      <module fileurl="file://$PROJECT_DIR$/app/Medicine-Time--app.iml" filepath="$PROJECT_DIR$/app/Medicine-Time--app.iml" group="Medicine-Time-/app" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/rumble.iml" filepath="$PROJECT_DIR$/.idea/modules/rumble.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/rumble.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/rumble.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/rumble.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/rumble.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/rumble.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/rumble.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/rumble.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/rumble.app.unitTest.iml" />
     </modules>
   </component>
 </project>
