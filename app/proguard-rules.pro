@@ -74,8 +74,8 @@
 }
 
 #Database table
--keep class com.gautam.medicinetime.data.**
--keepclassmembers class com.gautam.medicinetime.data.** { *; }
+-keep class com.rumble.rumble.data.**
+-keepclassmembers class com.rumble.rumble.data.** { *; }
 
 #ButterKnife
 -keep class butterknife.*

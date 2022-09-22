@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.gautam.medicinetime">
+    package="com.rumble.rumble">
+
+    <!-- 인터넷 오디오 권한 추가 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <uses-permission android:name="android.permission.VIBRATE" />
 
@@ -11,17 +15,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".medicine.MedicineActivity">
+        <activity
+            android:name="com.rumble.rumble.MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
         </activity>
-        <!-- <activity android:name=".MainActivity" /> -->
-        <activity android:name=".addmedicine.AddMedicineActivity" />
-        <activity android:name=".alarm.ReminderActivity" />
-        <activity android:name=".report.MonthlyReportActivity"/>
+        <activity android:name="com.rumble.rumble.medicine.MedicineActivity">
+
+        </activity> <!-- <activity android:name=".MainActivity" /> -->
+        <activity android:name="com.rumble.rumble.addmedicine.AddMedicineActivity" />
+        <activity android:name="com.rumble.rumble.alarm.ReminderActivity" />
+        <activity android:name="com.rumble.rumble.report.MonthlyReportActivity" />
+        <activity android:name="com.rumble.rumble.STTActivity"/>
+        <activity android:name="com.rumble.rumble.FallActivity"/>
     </application>
 
 </manifest>
