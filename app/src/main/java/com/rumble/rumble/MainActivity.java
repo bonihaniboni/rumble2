@@ -7,41 +7,42 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.PowerManager;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.rumble.rumble.medicine.MedicineActivity;
 
+import org.jsoup.Jsoup;
+import org.jsoup.select.Elements;
+import org.jsoup.nodes.Document;
+import org.w3c.dom.Element;
+
+import java.io.IOException;
+
 public class MainActivity extends AppCompatActivity {
+    String url = "https://health.chosun.com/"; // 건강정보 가져 올 웹사이트
+    String healthlink;
+    TextView textView;
+    TextView imgtextView;
+    ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        textView = findViewById(R.id.webTextView);
+        imageView = findViewById(R.id.poster);
+        imgtextView = findViewById(R.id.imageTextView);
 
-        // 배터리 절전모드 강제 해제
-        /*
-        Intent i = new Intent();
+        final Bundle bundle = new Bundle();
 
-        String packageName = getPackageName();
-        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (pm.isIgnoringBatteryOptimizations(packageName)) {
-                i.setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
-            } else{
-                i.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-                i.setData(Uri.parse("package:" + packageName));
-            }
-            startActivity(i);
-        }
-
-*/
-         */
         Button buttonFall = (Button) findViewById(R.id.buttonFall);
         Button buttonSTT = (Button) findViewById(R.id.buttonSTT);
         Button buttonAlarm = (Button) findViewById(R.id.buttonDrugAlarm);
@@ -67,5 +68,58 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        new Thread(){
+            @Override
+            public void run(){
+                Document doc = null;
+                try{
+                    // 크롤링 할 구문
+                    doc = Jsoup.connect(url).get();
+                    Elements contents = doc.select("div.top_news dl dd a"); // top.news 클래스 밑에 dl태그 밑 dd태그 밑 a로
+
+                    healthlink = contents.toString();
+                    String[] arr = healthlink.split("\"",100); // 큰따옴표 기준으로 split
+                    //healthlink = contents.text();
+                    bundle.putString("message",arr[1]); // 건강기사 URL
+                    bundle.putString("message2",arr[3]); // 기사 이미지 URL
+                    Message msg = handler.obtainMessage();
+                    msg.setData(bundle);
+                    handler.sendMessage(msg);
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+        }.start();
     }
+
+        // 핸들러
+        Handler handler = new Handler(){
+            @Override
+            public void handleMessage(Message msg){
+                Bundle bundle = msg.getData();
+                textView.setText(bundle.getString("message"));
+                imgtextView.setText(bundle.getString("message2"));
+            }
+        };
+
+        // 배터리 절전모드 강제 해제
+        /*
+        Intent i = new Intent();
+
+        String packageName = getPackageName();
+        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (pm.isIgnoringBatteryOptimizations(packageName)) {
+                i.setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
+            } else{
+                i.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                i.setData(Uri.parse("package:" + packageName));
+            }
+            startActivity(i);
+        }
+*/
+
 }
