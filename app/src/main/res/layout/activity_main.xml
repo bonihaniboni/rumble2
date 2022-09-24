@@ -31,16 +31,16 @@
         android:layout_height="wrap_content"
         android:text="test" />
 
-    <TextView
-        android:id="@+id/imageTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="test" />
-
     <ImageView
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:id="@+id/poster"
         android:src="@drawable/ic_launcher_background"/>
+
+    <Button
+        android:id="@+id/buttonMovetoLink"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="기사로 이동" />
 
 </LinearLayout>
