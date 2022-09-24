@@ -1,15 +1,24 @@
 **우렁 각시**
 
-_The Goal:_
+앱의 목표 : 
 
-Medicine Time is an native android application meant to aid the forgetful and busy with remembering to take their daily medications. It is designed for users who need a little help keeping track of their medication schedule and who are dedicated to keeping the schedule. The application allows the user to store pill objects and multiple alarms for those pills. Alarms have one time of day and can occur on multiple days of the week. The user is able to view their pills in a today view and can select date to view medicines. In addition, the application stores the history of when each medication was taken; this will aid the user in keeping track of their medication usage.
+-	노약자들은 건장한 성인보다 몸이 약하고 인지, 지각 능력이 떨어지므로 예상치 못한 상황에서 불편함을 느끼거나, 혹은 사고가 발생하기도 합니다. 
+
+-	저희 앱은 노약자들이 가진 이러한 일상생활 속 불편함을 직관적인 방법으로 도와주고 사고가 발생 시 심각한 부상이나 사망으로 이어지지 않도록 도움을 주는 앱을 제작하고자 합니다.
+.
+
+앱의 기능 : 
+
+i.	넘어짐 감지 - 넘어졌을 시 빠른 대처가 불가능, 그러한 상황을 인지해 주변에 알려주자
 
 
+ii.	만보기 & 활동권유 - 평소에 잘 움직이지 않는 노약자분들이 있음, 만보기를 통해 권장 운동량보다 적을 시 활동하도록 독려
 
 
-Use Cases and What Each Button Does:
-
-In the Home page, you will see 1 buttons in the bottom right of the application. ######Plus sign: This will take you to the Add Activity where you will be able to create an alarm. The application will automatically link up all the alarms to a specific pill with the same Pill Name. If you attempt to create an alarm to a pill that does not exist, it will automatically create a pill object for you. ######Calendar sign: This will take you to the Schedule Activity where you can see all the pills and alarms organized by the day of week.
+iii.	Speech-to-Text - 청각이 노화함에 따라 의사소통이 힘든 경우가 있음, 상대방이 말하는 것을 글로 보여주자
 
 
-<img src="https://raw.githubusercontent.com/gssinghgautam/Medicine-Time-/master/arts/Screenshot_2017-08-03-16-16-17-091_com.rumble.rumble.mock.png"/> <img src="https://raw.githubusercontent.com/gssinghgautam/Medicine-Time-/master/arts/Screenshot_2017-08-03-16-16-06-694_com.rumble.rumble.mock.png"/> <img src="https://raw.githubusercontent.com/gssinghgautam/Medicine-Time-/master/arts/Screenshot_2017-08-03-16-16-28-924_com.rumble.rumble.mock.png"/>
+iv.	약 복용 알림 - 주기적으로 복용해야 하는 약이 많아 까먹기 쉬움, 잊지 않도록 알람 기능 제공
+
+
+v.	건강 정보 소개 - 건강 정보는 계속 바뀌는데 이러한 정보를 빠르게 얻지 못함, 건강 뉴스를 크롤링해서 보여주자
