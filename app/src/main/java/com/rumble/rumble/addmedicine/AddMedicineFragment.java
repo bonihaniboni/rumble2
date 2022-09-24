@@ -382,14 +382,20 @@ public class AddMedicineFragment extends Fragment implements AddMedicineContract
 
                     assert alarmManager != null;
 
+
+                    alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarm_time,
+                            AlarmManager.INTERVAL_DAY * 7, operation);
+                    /*
                     if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-                        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,alarm_time, operation);
-                        //AlarmManager.AlarmClockInfo ac = new AlarmManager.AlarmClockInfo(calendar.getTimeInMillis(),operation);
-                        //alarmManager.setAlarmClock(ac,operation);
+                        //alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,alarm_time, operation);
+                        AlarmManager.AlarmClockInfo ac = new AlarmManager.AlarmClockInfo(calendar.getTimeInMillis(),operation);
+                        alarmManager.setAlarmClock(ac,operation);
                     }else {
                         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, alarm_time,
                                 AlarmManager.INTERVAL_DAY * 7, operation);
                     }
+                    */
+
                 }
             }
             Toast.makeText(getContext(), "Alarm for " + pill_name + " is set successfully", Toast.LENGTH_SHORT).show();

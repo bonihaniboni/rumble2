@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         // 배터리 절전모드 강제 해제
+        /*
         Intent i = new Intent();
 
         String packageName = getPackageName();
@@ -39,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
             startActivity(i);
         }
 
+*/
+         */
         Button buttonFall = (Button) findViewById(R.id.buttonFall);
         Button buttonSTT = (Button) findViewById(R.id.buttonSTT);
         Button buttonAlarm = (Button) findViewById(R.id.buttonDrugAlarm);
