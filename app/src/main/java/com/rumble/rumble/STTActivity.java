@@ -37,12 +37,16 @@ public class STTActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stt_activity);
 
+        getSupportActionBar().setTitle("텍스트로 변환");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         CheckPermission(); // 녹음 권한 확인
 
         // UI
         recordBtn = findViewById(R.id.recordBtn);
         recordTextView = findViewById(R.id.recordTextView);
         contents = findViewById(R.id.contentsTextView);
+        contents.setPadding(50, 50, 50, 50);
 
         // 버튼 클릭 이벤트 리스터 등록
         recordBtn.setOnClickListener(click);
@@ -189,7 +193,7 @@ public class STTActivity extends AppCompatActivity {
         recording = true;
 
         //마이크 이미지와 텍스트 변경
-        recordBtn.setImageResource(R.drawable.ic_baseline_fiber_manual_record_24);
+        recordBtn.setImageResource(R.drawable.ic_baseline_stop_circle_24);
         recordTextView.setText("음성 녹음 중지");
 
         speechRecognizer = SpeechRecognizer.createSpeechRecognizer(getApplicationContext());

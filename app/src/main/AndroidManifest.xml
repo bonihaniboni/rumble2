@@ -37,7 +37,9 @@
         <activity android:name="com.rumble.rumble.addmedicine.AddMedicineActivity" />
         <activity android:name="com.rumble.rumble.alarm.ReminderActivity" />
         <activity android:name="com.rumble.rumble.report.MonthlyReportActivity" />
-        <activity android:name="com.rumble.rumble.STTActivity"/>
+        <activity android:name="com.rumble.rumble.STTActivity"
+            android:theme="@style/AppTheme"
+            android:parentActivityName=".MainActivity"/>
         <activity android:name="com.rumble.rumble.FallActivity"/>
     </application>
 
