@@ -1,46 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:background="@drawable/ctr_bg"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/buttonFall"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Fall" />
+        android:layout_height="280dp"
+        android:fitsSystemWindows="true"
+        android:theme="@style/actionbarstyle">
 
-    <Button
-        android:id="@+id/buttonSTT"
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/ctr_bg"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
+            app:title="Rumble"
+            app:expandedTitleGravity="center">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin" />
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/layout_bg"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/buttonSTT"
+                android:layout_marginTop="50dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Speech to Text" />
+
+            <Button
+                android:id="@+id/buttonDrugAlarm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="약 알람" />
+
+            <TextView
+                android:id="@+id/webTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="test" />
+
+            <ImageView
+                android:id="@+id/poster"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_weight="4"
+                android:src="@drawable/ic_launcher_background" />
+
+            <Button
+                android:id="@+id/buttonMovetoLink"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:text="기사로 이동" />
+
+        </LinearLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/buttonFallsetting"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Speech to Text" />
+        android:layout_marginRight="30dp"
+        android:backgroundTint="#facf5a"
+        android:baselineAlignBottom="false"
+        android:clickable="true"
+        android:src="@drawable/ic_baseline_settings_24"
+        app:fabSize="normal"
+        app:layout_anchor="@id/appbar"
+        app:layout_anchorGravity="end|bottom" />
 
-    <Button
-        android:id="@+id/buttonDrugAlarm"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="약 알람" />
 
-    <TextView
-        android:id="@+id/webTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="test" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <ImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:id="@+id/poster"
-        android:src="@drawable/ic_launcher_background"/>
-
-    <Button
-        android:id="@+id/buttonMovetoLink"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="기사로 이동" />
-
-</LinearLayout>

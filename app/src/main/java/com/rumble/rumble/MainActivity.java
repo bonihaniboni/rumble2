@@ -18,6 +18,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.rumble.rumble.medicine.MedicineActivity;
 
 import org.jsoup.Jsoup;
@@ -29,8 +31,7 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
     String url = "https://health.chosun.com/"; // 건강정보 가져 올 웹사이트
-    String healthlink;
-    String healthtitle;
+    String healthlink; // 크롤링
     TextView webtitleTextView;
     ImageView webimageImageView;
     Button buttonMovetoLink;
@@ -41,17 +42,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // 원 UI 스타일 앱바로 만들어주는 코드
+        CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout)
+                findViewById(R.id.collapsing_toolbar);
+        collapsingToolbar.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar);
+        collapsingToolbar.setExpandedTitleTextAppearance(R.style.ExpandedAppBar);
+
         webtitleTextView = findViewById(R.id.webTextView);
         webimageImageView = findViewById(R.id.poster);
 
         final Bundle bundle = new Bundle();
 
-        Button buttonFall = (Button) findViewById(R.id.buttonFall);
+        FloatingActionButton buttonfallsetting = findViewById(R.id.buttonFallsetting);
         Button buttonSTT = (Button) findViewById(R.id.buttonSTT);
         Button buttonAlarm = (Button) findViewById(R.id.buttonDrugAlarm);
         buttonMovetoLink = findViewById(R.id.buttonMovetoLink);
 
-        buttonFall.setOnClickListener(new View.OnClickListener() {
+        buttonfallsetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), FallActivity.class);
@@ -96,10 +103,10 @@ public class MainActivity extends AppCompatActivity {
                     healthlink = contents.toString();
                     String[] arr = healthlink.split("\"",100); // 큰따옴표 기준으로 split
                     Elements contents1 = doc.select("div.top_news h2 a"); // top.news 클래스 밑에 h2태그 밑 a로
-                    healthlink = contents1.text();
+                    healthlink = contents1.text(); // 기사 제목
                     bundle.putString("weblink",arr[1]); // 건강기사 URL
                     bundle.putString("webimage",arr[3]); // 기사 이미지 URL
-                    bundle.putString("webtitle",healthlink);
+                    bundle.putString("webtitle",healthlink); // 기사 제목 String
                     Message msg = handler.obtainMessage();
                     msg.setData(bundle);
                     handler.sendMessage(msg);
