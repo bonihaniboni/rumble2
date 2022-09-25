@@ -7,6 +7,24 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="actionbarstyle">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <!-- 원 UI 스타일 앱바 -->
+    <style name="CollapsedAppBar" parent="@android:style/TextAppearance">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="ExpandedAppBar" parent="@android:style/TextAppearance">
+        <item name="android:textSize">76sp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
