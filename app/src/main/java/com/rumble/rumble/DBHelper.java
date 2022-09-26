@@ -37,7 +37,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public void Delete(String phoneNumber) {
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL("DELETE Person WHERE phoneNumber = '" + phoneNumber + "'");
+        db.execSQL("DELETE FROM Person WHERE phoneNumber = '" + phoneNumber + "'");
         db.close();
     }
 

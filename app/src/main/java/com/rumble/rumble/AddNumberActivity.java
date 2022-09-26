@@ -1,7 +1,9 @@
 package com.rumble.rumble;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
@@ -9,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -56,6 +59,35 @@ public class AddNumberActivity extends AppCompatActivity {
             TextView textView = new TextView(this);
             textView.setText(phone);
             textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+
+            textView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(AddNumberActivity.this);
+
+                    builder.setMessage("전화번호 삭제")
+                            .setTitle(textView.getText().toString() + " 전화번호를 정말 삭제하시겠습니까?");
+
+                    builder.setPositiveButton("네", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dbHelper.Delete(textView.getText().toString());
+                            setLayout();
+                            Toast.makeText(getApplicationContext(), "번호가 삭제되었습니다", Toast.LENGTH_LONG).show();
+                        }
+                    });
+
+                    builder.setNegativeButton("아니요", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    });
+
+                    builder.show();
+                    return true;
+                }
+            });
 
             numberListLayout.addView(textView);
         }

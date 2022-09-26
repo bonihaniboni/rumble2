@@ -75,8 +75,11 @@ public class FloatActivity extends AppCompatActivity {
 
     private void sendMessage() {
         List<String> list = dbHelper.getResult();
+        int count = 0;
 
         for(String phoneNumber : list) {
+            ++count;
+
             String sms = "위험 감지 (테스트용)\n\n";
             sms += "http://maps.google.com/?q=" + currentLocation.getLatitude() + "," + currentLocation.getLongitude();
             Log.d("LogNumber", phoneNumber);
@@ -88,6 +91,10 @@ public class FloatActivity extends AppCompatActivity {
             } catch (Exception e) {
                 Toast.makeText(getApplicationContext(), "failed to send sms", Toast.LENGTH_LONG).show();
             }
+        }
+
+        if (count == 0) {
+            Toast.makeText(getApplicationContext(), "저장된 번호가 없어요.", Toast.LENGTH_LONG).show();
         }
     }
 
