@@ -53,6 +53,11 @@ public class AddNumberActivity extends AppCompatActivity {
 
     private void setLayout() {
         numberListLayout.removeAllViews();
+        TextView textViewTitle = new TextView(this);
+        textViewTitle.setText("번호 리스트");
+        textViewTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+        numberListLayout.addView(textViewTitle);
+
         List<String> list = dbHelper.getResult();
 
         for(String phone : list) {

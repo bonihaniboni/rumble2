@@ -1,9 +1,17 @@
 package com.rumble.rumble;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,6 +19,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.PowerManager;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -29,13 +38,19 @@ import org.w3c.dom.Element;
 
 import java.io.IOException;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SensorEventListener {
     String url = "https://health.chosun.com/"; // 건강정보 가져 올 웹사이트
     String healthlink; // 크롤링
     TextView webtitleTextView;
     ImageView webimageImageView;
     Button buttonMovetoLink;
     String articlelink;
+
+    // 만보기 관련 변수
+    private TextView textViewWalk;
+    private int countWalk = 0;
+    private SensorManager sensorManager;
+    private Sensor stepCountSensor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +62,12 @@ public class MainActivity extends AppCompatActivity {
                 findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar);
         collapsingToolbar.setExpandedTitleTextAppearance(R.style.ExpandedAppBar);
+
+        // 만보기 텍스트뷰
+        textViewWalk = (TextView)findViewById(R.id.textViewWalk);
+        textViewWalk.setText("현재 걸음 수 : " + countWalk);
+        preCheck(); // 만보기 권한 체크
+        setSensor(); // 만보기 센서 설정
 
         webtitleTextView = findViewById(R.id.webTextView);
         webimageImageView = findViewById(R.id.poster);
@@ -128,7 +149,44 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        // 배터리 절전모드 강제 해제
+    // 만보기 권한 체크
+    private void preCheck() {
+        // 권한 체크 뭔가 잘 안됨 -> 수정 필요
+        if(ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_GRANTED) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(new String[]{Manifest.permission.ACTIVITY_RECOGNITION}, 0);
+            }
+        }
+    }
+
+    // 만보기 sensor 설정
+    private void setSensor() {
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        stepCountSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
+
+        if (stepCountSensor == null) {
+            Toast.makeText(this, "No step Sensor", Toast.LENGTH_LONG).show();
+        }
+
+        sensorManager.registerListener(this, stepCountSensor, SensorManager.SENSOR_DELAY_FASTEST);
+    }
+
+    // 센서 변화 감지
+    @Override
+    public void onSensorChanged(SensorEvent sensorEvent) {
+        if(sensorEvent.sensor.getType() == Sensor.TYPE_STEP_DETECTOR) {
+            ++countWalk;
+            textViewWalk.setText("현재 걸음 수 : " + countWalk);
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+
+    }
+
+    // 배터리 절전모드 강제 해제
         /*
         Intent i = new Intent();
 
