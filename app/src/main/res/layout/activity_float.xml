@@ -11,49 +11,48 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
+        android:gravity="center_vertical"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="45sp"
+            android:textAlignment="center"
+            android:text="심하게\n넘어진 것\n같습니다"
+            android:gravity="center_horizontal" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/buttonOK"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:text="괜찮아요" />
+
+    <Button
+        android:id="@+id/buttonAlert"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:text="신고가 필요해요" />
+
+    <TextView
+        android:id="@+id/textViewTime"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="0초 후 자동 신고"
+        android:textSize="30sp"
+        android:gravity="center_horizontal" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/textViewTime"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textSize="30sp" />
-
-        <TextView
-            android:id="@+id/textViewGPS"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            android:textSize="30sp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/buttonOK"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="괜찮아요" />
-
-        <Button
-            android:id="@+id/buttonAlert"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="신고가 필요해요" />
     </LinearLayout>
 </LinearLayout>
