@@ -24,7 +24,7 @@ import java.util.List;
 public class FloatActivity extends AppCompatActivity {
 
     private CountDownTimer countDownTimer;
-    private TextView textViewTime, textViewGPS;
+    private TextView textViewTime;
     private Button buttonOK, buttonAlert;
 
     private DBHelper dbHelper;
@@ -63,10 +63,11 @@ public class FloatActivity extends AppCompatActivity {
                     public void onSuccess(Location location) {
                         if (location == null) {
                             Toast.makeText(getApplicationContext(), "위치를 불러오는데 실패했습니다", Toast.LENGTH_LONG).show();
+                            return;
                         }
 
-                        Log.d("getGPS", "" + location.getLatitude());
-                        Log.d("getGPS", "" + location.getLongitude());
+                        Log.d("getGPSA", "" + location.getLatitude());
+                        Log.d("getGPSA", "" + location.getLongitude());
 
                         currentLocation = location;
                     }
@@ -81,7 +82,12 @@ public class FloatActivity extends AppCompatActivity {
             ++count;
 
             String sms = "위험 감지 (테스트용)\n\n";
-            sms += "http://maps.google.com/?q=" + currentLocation.getLatitude() + "," + currentLocation.getLongitude();
+            if(currentLocation != null) {
+                sms += "http://maps.google.com/?q=" + currentLocation.getLatitude() + "," + currentLocation.getLongitude();
+            }
+            else {
+                sms += "위치정보를 파악할 수 없습니다";
+            }
             Log.d("LogNumber", phoneNumber);
 
             try {
@@ -104,7 +110,7 @@ public class FloatActivity extends AppCompatActivity {
         countDownTimer = new CountDownTimer(10000, 1000) {
             @Override
             public void onTick(long l) {
-                textViewTime.setText("seconds remaining: " + l / 1000);
+                textViewTime.setText(l / 1000 + "초 후 자동 신고");
             }
 
             @Override
@@ -117,7 +123,6 @@ public class FloatActivity extends AppCompatActivity {
 
     private void initView() {
         textViewTime = (TextView)findViewById(R.id.textViewTime);
-        textViewGPS = (TextView)findViewById(R.id.textViewGPS);
 
         buttonOK = (Button)findViewById(R.id.buttonOK);
         buttonAlert = (Button)findViewById(R.id.buttonAlert);
