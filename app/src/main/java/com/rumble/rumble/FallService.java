@@ -58,6 +58,7 @@ public class FallService extends Service implements SensorEventListener {
 
             Log.d("test","넘어짐");
             Intent intent = new Intent(getApplicationContext(), FloatActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
 

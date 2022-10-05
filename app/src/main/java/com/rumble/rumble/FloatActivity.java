@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.telephony.SmsManager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -140,9 +141,20 @@ public class FloatActivity extends AppCompatActivity {
         buttonAlert.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(countDownTimer != null) countDownTimer.cancel();
                 sendMessage();
                 finish();
             }
         });
+    }
+
+    @Override
+    public boolean onKeyDown(int keycode, KeyEvent event) {
+        if(keycode == KeyEvent.KEYCODE_BACK) {
+            if(countDownTimer != null) countDownTimer.cancel();
+            finish();
+            return true;
+        }
+        return false;
     }
 }
