@@ -3,13 +3,19 @@ package com.rumble.rumble;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +28,7 @@ public class AddNumberActivity extends AppCompatActivity {
     private LinearLayout numberListLayout;
     private EditText editTextNumber;
     private Button buttonAdd;
+    private Switch switchService;
 
     private DBHelper dbHelper;
 
@@ -35,6 +42,7 @@ public class AddNumberActivity extends AppCompatActivity {
         init();
         setButton();
         setLayout();
+        setSwitch();
     }
 
     private void preCheck() {
@@ -45,6 +53,7 @@ public class AddNumberActivity extends AppCompatActivity {
         numberListLayout = (LinearLayout) findViewById(R.id.numberListLayout);
         editTextNumber = (EditText) findViewById(R.id.editTextNumber);
         buttonAdd = (Button)findViewById(R.id.buttonAdd);
+        switchService = (Switch)findViewById(R.id.switchService);
     }
 
     private void init() {
@@ -116,6 +125,60 @@ public class AddNumberActivity extends AppCompatActivity {
 //                } catch (Exception e) {
 //                    Toast.makeText(getApplicationContext(), "failed to send sms", Toast.LENGTH_LONG).show();
 //                }
+            }
+        });
+    }
+
+    private void setSwitch() {
+        ActivityManager am = (ActivityManager)getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningServiceInfo> rs = am.getRunningServices(1000);
+
+        boolean flag = false;
+
+        for(int i=0;i<rs.size();i++) {
+            ActivityManager.RunningServiceInfo rsi = rs.get(i);
+            Log.d("FallService", "package : " + rsi.service.getPackageName());
+            Log.d("FallService", "class : " + rsi.service.getClassName());
+
+            if (rsi.service.getClassName().equals("com.rumble.rumble.FallService")) {
+                flag = true;
+                break;
+            }
+        }
+
+        Log.d("FallService", flag + "");
+
+        if (flag) {
+            switchService.setChecked(true);
+            switchService.setText("넘어짐 감지 서비스 활성화");
+        }
+        else {
+            switchService.setChecked(false);
+            switchService.setText("넘어짐 감지 서비스 비활성화");
+        }
+
+        switchService.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(switchService.isChecked()) {
+                    switchService.setText("넘어짐 감지 서비스 활성화");
+
+                    // 넘어짐감지 백그라운드 쓰레드 유지
+                    Intent intentse = new Intent(getApplicationContext(),FallService.class);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        startForegroundService(intentse);
+                    }
+                    else{
+                        startActivity(intentse);
+                    }
+                }
+                else {
+                    switchService.setText("넘어짐 감지 서비스 비활성화");
+
+                    //((FallService)FallService.mContext).stopService();
+                    Intent intentse = new Intent(getApplicationContext(),FallService.class);
+                    stopService(intentse);
+                }
             }
         });
     }

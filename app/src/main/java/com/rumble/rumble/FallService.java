@@ -5,6 +5,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.IBinder;
@@ -18,6 +19,8 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
 public class FallService extends Service implements SensorEventListener {
+    public static Context mContext;
+
     static final String CHANNEL_ID = "channelId";
 
     private SensorManager mSensorManager;
@@ -25,7 +28,8 @@ public class FallService extends Service implements SensorEventListener {
     private float x=0, y=0, z=0;
 
     public FallService() {
-
+        mContext = this;
+        Log.d("FallService", "FallService init");
     }
 
     // 넘어짐 감지 시
@@ -143,6 +147,7 @@ public class FallService extends Service implements SensorEventListener {
 
     @Override
     public void onDestroy(){
+        Log.d("FallService", "onDestroy");
         stopForeground(true);
         stopSelf();
 

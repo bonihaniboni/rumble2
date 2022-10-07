@@ -57,15 +57,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // 넘어짐감지 백그라운드 쓰레드 유지
-        Intent intentse = new Intent(this,FallService.class);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            startForegroundService(intentse);
-        }
-        else{
-            startActivity(intentse);
-        }
-
         // 원 UI 스타일 앱바로 만들어주는 코드
         CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout)
                 findViewById(R.id.collapsing_toolbar);
@@ -91,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         buttonfallsetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), FallActivity.class);
+                Intent intent = new Intent(getApplicationContext(), AddNumberActivity.class);
                 startActivity(intent);
             }
         });
