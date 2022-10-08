@@ -118,12 +118,13 @@ public class PedometerService extends Service implements SensorEventListener {
     private void processCommand(Intent intent) {
         Log.d("test","값 전송");
         String name = "ab";
+        String show = Integer.toString(countWalk);
 
         Intent showIntent = new Intent(getApplicationContext(), MainActivity.class);
         showIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                 Intent.FLAG_ACTIVITY_SINGLE_TOP |
                 Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        showIntent.putExtra("command", "show");
+        showIntent.putExtra("command", show);
         //Log.d("test",showIntent);
         showIntent.putExtra("name", name + " from service.");
         startActivity(showIntent); // Service에서 Activity로 데이터를 전달

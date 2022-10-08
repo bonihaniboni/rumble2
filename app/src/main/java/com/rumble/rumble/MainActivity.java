@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
         startService(itit);
 
         // 혹시 서비스에서 보내는데 시간이 걸릴까봐 딜레이 줌
+        /*
         new Handler().postDelayed(new Runnable()
         {
             @Override
@@ -82,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
                 processIntent(passedIntent);
             }
         }, 600);// 0.6초 정도 딜레이를 준 후 시작
-
+*/
 
 
         // 원 UI 스타일 앱바로 만들어주는 코드
@@ -212,6 +213,7 @@ public class MainActivity extends AppCompatActivity {
             Log.d("test","수신"); // 여기까진 들어가진다 즉 인텐트가 null값이 아니다
             //Log.d("test",command); // 하지만 열어보면 null
             Toast.makeText(this, "command : " + command + ", name : " + name, Toast.LENGTH_LONG).show();
+            textViewWalk.setText(command);
         }
     }
 
