@@ -3,15 +3,19 @@ package com.rumble.rumble;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -37,8 +41,13 @@ import org.jsoup.nodes.Document;
 import org.w3c.dom.Element;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements SensorEventListener {
+public class MainActivity extends AppCompatActivity {
+
     String url = "https://health.chosun.com/"; // 건강정보 가져 올 웹사이트
     String healthlink; // 크롤링
     TextView webtitleTextView;
@@ -47,15 +56,34 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     String articlelink;
 
     // 만보기 관련 변수
-    private TextView textViewWalk;
-    private int countWalk = 0;
-    private SensorManager sensorManager;
-    private Sensor stepCountSensor;
+    SharedPreferences preferences; //
+    SharedPreferences.Editor editor;
+    String savedate;
+    String nowdate;
+    private TextView textViewWalk; // 현재 걸음 수 표시
+    private TextView datetextview;
+    public static String format_yyyyMMdd = "yyyyMMdd";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent itit = new Intent(this,PedometerService.class);
+        startService(itit);
+
+        // 혹시 서비스에서 보내는데 시간이 걸릴까봐 딜레이 줌
+        new Handler().postDelayed(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                Intent passedIntent = getIntent(); // Service에서 보낸 Intent 객체를 전달받음
+                processIntent(passedIntent);
+            }
+        }, 600);// 0.6초 정도 딜레이를 준 후 시작
+
+
 
         // 원 UI 스타일 앱바로 만들어주는 코드
         CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout)
@@ -65,9 +93,21 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         // 만보기 텍스트뷰
         textViewWalk = (TextView)findViewById(R.id.textViewWalk);
-        textViewWalk.setText("현재 걸음 수 : " + countWalk);
-        preCheck(); // 만보기 권한 체크
-        setSensor(); // 만보기 센서 설정
+        datetextview = (TextView)findViewById(R.id.datedate);
+        preCheck();
+
+        preferences = getSharedPreferences("pref", Activity.MODE_PRIVATE);
+        editor = preferences.edit();
+        savedate = preferences.getString("Date","-"); // 저장해 둔 값 불러오기 없으면 -
+        nowdate = getCurrentDate_yyyyMMdd();
+        if(savedate != nowdate){ // 날짜 바뀌면
+
+        }
+        else{
+
+        }
+        datetextview.setText(savedate);
+
 
         webtitleTextView = findViewById(R.id.webTextView);
         webimageImageView = findViewById(R.id.poster);
@@ -113,6 +153,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         });
 
+        // 건강정보 크롤링 관련
+        // ------------------------------------------------------------------------------------------------------------
         new Thread(){
             @Override
             public void run(){
@@ -138,6 +180,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }.start();
     }
 
+
         // 핸들러
         Handler handler = new Handler(){
             @Override
@@ -149,6 +192,36 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         };
 
+    // ------------------------------------------------------------------------------------------------------------
+    // 건강정보 크롤링 관련
+
+    // 만보기 관련
+    // ------------------------------------------------------------------------------------------------------------
+    // 현재 날짜 구하는 메서드
+    public static String getCurrentDate_yyyyMMdd() {
+        Date currentTime = Calendar.getInstance().getTime();
+        SimpleDateFormat format = new SimpleDateFormat(format_yyyyMMdd, Locale.getDefault());
+        return format.format(currentTime);
+    }
+
+    // 인텐트로 값 수신
+    private void processIntent(Intent intent) {
+        if (intent != null) {
+            String command = intent.getStringExtra("command");
+            String name = intent.getStringExtra("name");
+            Log.d("test","수신"); // 여기까진 들어가진다 즉 인텐트가 null값이 아니다
+            //Log.d("test",command); // 하지만 열어보면 null
+            Toast.makeText(this, "command : " + command + ", name : " + name, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        processIntent(intent);
+
+        super.onNewIntent(intent);
+    }
+
     // 만보기 권한 체크
     private void preCheck() {
         // 권한 체크 뭔가 잘 안됨 -> 수정 필요
@@ -159,50 +232,5 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             }
         }
     }
-
-    // 만보기 sensor 설정
-    private void setSensor() {
-        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        stepCountSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
-
-        if (stepCountSensor == null) {
-            Toast.makeText(this, "No step Sensor", Toast.LENGTH_LONG).show();
-        }
-
-        sensorManager.registerListener(this, stepCountSensor, SensorManager.SENSOR_DELAY_FASTEST);
-    }
-
-    // 센서 변화 감지
-    @Override
-    public void onSensorChanged(SensorEvent sensorEvent) {
-        if(sensorEvent.sensor.getType() == Sensor.TYPE_STEP_DETECTOR) {
-            ++countWalk;
-            textViewWalk.setText("현재 걸음 수 : " + countWalk);
-        }
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int i) {
-
-    }
-
-    // 배터리 절전모드 강제 해제
-        /*
-        Intent i = new Intent();
-
-        String packageName = getPackageName();
-        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (pm.isIgnoringBatteryOptimizations(packageName)) {
-                i.setAction(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
-            } else{
-                i.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-                i.setData(Uri.parse("package:" + packageName));
-            }
-            startActivity(i);
-        }
-*/
 
 }
