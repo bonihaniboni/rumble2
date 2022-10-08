@@ -96,18 +96,6 @@ public class FallService extends Service implements SensorEventListener {
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
         mSensorManager.registerListener(FallService.this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 
-
-
-       /* new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                f();
-            }
-        }).start();
-        */
-        // 넘어짐 감지 엑티비티
-
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -121,23 +109,6 @@ public class FallService extends Service implements SensorEventListener {
         }
     }
 
-    /*void f(){
-
-        for(int i=0;i<100;i++){
-            try {
-                Thread.sleep(1000);
-                Log.d("test","count: "+i);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            // 명령 다 실행 시 종류
-            stopSelf();
-        }
-
-
-    }
-*/
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -150,6 +121,7 @@ public class FallService extends Service implements SensorEventListener {
         Log.d("FallService", "onDestroy");
         stopForeground(true);
         stopSelf();
+        mSensorManager.unregisterListener(this, mAccelerometer);
 
         super.onDestroy();
     }
