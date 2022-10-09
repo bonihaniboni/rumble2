@@ -11,19 +11,23 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <EditText
+        <TextView
             android:id="@+id/contentsTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
             android:layout_weight="1"
             android:background="@drawable/layout_stt_bg"
-            android:ems="10"
+            android:textColor="#ffffff"
             android:gravity="top"
-            android:hint="내용"
+            android:hint="버튼을 누르면 변환을 시작합니다"
+            android:textColorHint="#ffffff"
             android:inputType="textMultiLine"
-            android:lines="8"
-            android:maxLines="100"
+            android:textSize="20dp"
+            android:scrollbars="vertical"
+            android:scrollbarFadeDuration="0"
+            android:scrollbarTrackVertical="@color/colorAccent"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
             android:padding="5dp" />
 
         <ImageButton

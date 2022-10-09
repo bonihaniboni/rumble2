@@ -49,9 +49,14 @@ public class PedometerService extends Service implements SensorEventListener {
     public void onSensorChanged(SensorEvent sensorEvent) {
         if(sensorEvent.sensor.getType() == Sensor.TYPE_STEP_DETECTOR) {
             ++countWalk;
-            Log.d("test",Integer.toString(countWalk));
+            //Log.d("test",Integer.toString(countWalk));
+            Log.d("WalkingChecker", "sensor : " + sensorEvent.toString());
+            Log.d("WalkingChecker", "before command : " + countWalk);
+
             notification.setContentText(Integer.toString(countWalk));
             startForeground(1, notification.build());
+
+            processCommand();
         }
     }
 
@@ -90,7 +95,7 @@ public class PedometerService extends Service implements SensorEventListener {
         sensorManager.registerListener(this, stepCountSensor, SensorManager.SENSOR_DELAY_FASTEST);
 
 
-        processCommand(intent); // 인텐트로 값 전달 시도
+        processCommand(); // 인텐트로 값 전달 시도
 
         return super.onStartCommand(intent, flags, startId);
     }
@@ -115,7 +120,9 @@ public class PedometerService extends Service implements SensorEventListener {
     }
 
     // 인텐트로 값 전달 시도
-    private void processCommand(Intent intent) {
+    private void processCommand() {
+        //Log.d("WalkingChecker", "intent : " + intent.toString());
+
         Log.d("test","값 전송");
         String name = "ab";
         String show = Integer.toString(countWalk);

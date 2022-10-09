@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
     String healthlink; // 크롤링
     TextView webtitleTextView;
     ImageView webimageImageView;
-    Button buttonMovetoLink;
     String articlelink;
 
     // 만보기 관련 변수
@@ -64,13 +63,19 @@ public class MainActivity extends AppCompatActivity {
     private TextView datetextview;
     public static String format_yyyyMMdd = "yyyyMMdd";
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         Intent itit = new Intent(this,PedometerService.class);
-        startService(itit);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(itit);
+        } else {
+            startService(itit);
+        }
 
         // 혹시 서비스에서 보내는데 시간이 걸릴까봐 딜레이 줌
         /*
@@ -118,7 +123,6 @@ public class MainActivity extends AppCompatActivity {
         FloatingActionButton buttonfallsetting = findViewById(R.id.buttonFallsetting);
         Button buttonSTT = (Button) findViewById(R.id.buttonSTT);
         Button buttonAlarm = (Button) findViewById(R.id.buttonDrugAlarm);
-        buttonMovetoLink = findViewById(R.id.buttonMovetoLink);
 
         buttonfallsetting.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,7 +145,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        buttonMovetoLink.setOnClickListener(new View.OnClickListener() {
+
+        webimageImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(articlelink != null) {
@@ -212,8 +217,10 @@ public class MainActivity extends AppCompatActivity {
             String name = intent.getStringExtra("name");
             Log.d("test","수신"); // 여기까진 들어가진다 즉 인텐트가 null값이 아니다
             //Log.d("test",command); // 하지만 열어보면 null
-            Toast.makeText(this, "command : " + command + ", name : " + name, Toast.LENGTH_LONG).show();
-            textViewWalk.setText(command);
+            //Toast.makeText(this, "command : " + command + ", name : " + name, Toast.LENGTH_LONG).show();
+            if(command != null) textViewWalk.setText(command);
+            Log.d("WalkingChecker", "proceddIntent");
+            Log.d("WalkingChecker", "after command : " + command);
         }
     }
 
@@ -235,4 +242,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        //Log.d("WalkingChecker", "onResume");
+        Log.d("WalkingChecker", textViewWalk.getText().toString());
+        textViewWalk.invalidate();
+    }
 }

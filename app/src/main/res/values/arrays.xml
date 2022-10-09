@@ -16,29 +16,18 @@
     </array>
 
     <array name="medications_shape_array">
-        <item>adhesive(s)</item>
-        <item>capsule(s)</item>
-        <item>cachet(s)</item>
-        <item>cream(s)</item>
-        <item>dragee(s)</item>
-        <item>emulsion(s)</item>
-        <item>pack(s)</item>
-        <item>gel(s)</item>
-        <item>drop(s)</item>
-        <item>inhalation(s)</item>
-        <item>shot(s)</item>
-        <item>lotion(s)</item>
-        <item>measure(s)</item>
-        <item>tablet(s)</item>
-        <item>powder(s)</item>
-        <item>ointment(s)</item>
-        <item>soap(s)</item>
-        <item>sachet(s)</item>
-        <item>unit(s)</item>
-        <item>solution(s)</item>
-        <item>spray(s)</item>
-        <item>suspension(s)</item>
-        <item>syrup(s)</item>
+        <item>캡슐형</item>
+        <item>크림형</item>
+        <item>당제</item>
+        <item>에멀젼</item>
+        <item>팩형</item>
+        <item>젤형</item>
+        <item>흡입형</item>
+        <item>주사형</item>
+        <item>파우더형</item>
+        <item>연고형</item>
+        <item>시럽형</item>
+        <item>스프레이형</item>m>
     </array>
     <array name="pill_cycle_formats">
         <item>21+7</item>
@@ -54,12 +43,12 @@
         <item>14+14</item>
     </array>
     <array name="week_days_abbreviations">
-        <item>sun</item>
-        <item>mon</item>
-        <item>tue</item>
-        <item>wed</item>
-        <item>thu</item>
-        <item>fri</item>
-        <item>sat</item>
+        <item>일</item>
+        <item>월</item>
+        <item>화</item>
+        <item>수</item>
+        <item>목</item>
+        <item>금</item>
+        <item>토</item>
     </array>
 </resources>

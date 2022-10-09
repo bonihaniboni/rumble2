@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -30,7 +31,7 @@ public class STTActivity extends AppCompatActivity {
     TextView recordTextView;
     ImageButton recordBtn;
 
-    EditText contents; // 음성을 텍스트로 변환한 결과를 출력할 텍스트뷰
+    TextView contents; // 음성을 텍스트로 변환한 결과를 출력할 텍스트뷰
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +46,10 @@ public class STTActivity extends AppCompatActivity {
         // UI
         recordBtn = findViewById(R.id.recordBtn);
         recordTextView = findViewById(R.id.recordTextView);
+
         contents = findViewById(R.id.contentsTextView);
         contents.setPadding(50, 50, 50, 50);
+        contents.setMovementMethod(new ScrollingMovementMethod());
 
         // 버튼 클릭 이벤트 리스터 등록
         recordBtn.setOnClickListener(click);
