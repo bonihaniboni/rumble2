@@ -110,8 +110,6 @@ public class PedometerService extends Service implements SensorEventListener {
         }
     }
 
-
-
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -128,9 +126,11 @@ public class PedometerService extends Service implements SensorEventListener {
         String show = Integer.toString(countWalk);
 
         Intent showIntent = new Intent(getApplicationContext(), MainActivity.class);
+
         showIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                 Intent.FLAG_ACTIVITY_SINGLE_TOP |
                 Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
         showIntent.putExtra("command", show);
         //Log.d("test",showIntent);
         showIntent.putExtra("name", name + " from service.");

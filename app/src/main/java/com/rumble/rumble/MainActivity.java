@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView datetextview;
     public static String format_yyyyMMdd = "yyyyMMdd";
 
-
+    SharedPreferences preferencesWalk;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,20 +77,6 @@ public class MainActivity extends AppCompatActivity {
             startService(itit);
         }
 
-        // 혹시 서비스에서 보내는데 시간이 걸릴까봐 딜레이 줌
-        /*
-        new Handler().postDelayed(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                Intent passedIntent = getIntent(); // Service에서 보낸 Intent 객체를 전달받음
-                processIntent(passedIntent);
-            }
-        }, 600);// 0.6초 정도 딜레이를 준 후 시작
-*/
-
-
         // 원 UI 스타일 앱바로 만들어주는 코드
         CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout)
                 findViewById(R.id.collapsing_toolbar);
@@ -100,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
         // 만보기 텍스트뷰
         textViewWalk = (TextView)findViewById(R.id.textViewWalk);
         datetextview = (TextView)findViewById(R.id.datedate);
+        preferencesWalk = getSharedPreferences("Walk", MODE_PRIVATE);
         preCheck();
 
         preferences = getSharedPreferences("pref", Activity.MODE_PRIVATE);
