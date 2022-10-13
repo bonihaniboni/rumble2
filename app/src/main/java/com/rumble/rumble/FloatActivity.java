@@ -5,6 +5,7 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +29,7 @@ public class FloatActivity extends AppCompatActivity {
     private CountDownTimer countDownTimer;
     private TextView textViewTime;
     private Button buttonOK, buttonAlert;
+    private LinearLayout linearLayout;
 
     private DBHelper dbHelper;
 
@@ -111,6 +114,19 @@ public class FloatActivity extends AppCompatActivity {
         countDownTimer = new CountDownTimer(10000, 1000) {
             @Override
             public void onTick(long l) {
+                // 남은 시간 별 색깔 변경
+                switch ((int)(l/1000)){
+                    case 3:
+                        linearLayout.setBackgroundColor(Color.parseColor("#FF0000"));
+                        break;
+                    case 2:
+                        linearLayout.setBackgroundColor(Color.parseColor("#CC0000"));
+                        break;
+                    case 1:
+                        linearLayout.setBackgroundColor(Color.parseColor("#AA0000"));
+                        break;
+                }
+
                 textViewTime.setText(l / 1000 + "초 후 자동 신고");
             }
 
@@ -127,6 +143,7 @@ public class FloatActivity extends AppCompatActivity {
 
         buttonOK = (Button)findViewById(R.id.buttonOK);
         buttonAlert = (Button)findViewById(R.id.buttonAlert);
+        linearLayout = (LinearLayout) findViewById(R.id.floatactivityback);
     }
 
     private void setButton() {

@@ -21,9 +21,9 @@
             android:background="@drawable/ctr_bg"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleGravity="center"
             app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
-            app:title="Rumble"
-            app:expandedTitleGravity="center">
+            app:title="넘어짐 감지">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -46,39 +46,55 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="50dp"
-                android:orientation="vertical">
+                android:layout_height="70dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="5dp">
+
+                <TextView
+                    android:id="@+id/switchtextview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/layout_switch_bgoff" />
 
                 <Switch
                     android:id="@+id/switchService"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Switch" />
+                    android:layout_gravity="center"
+                    android:layout_margin="30dp"
+                    android:text="Switch"
+                    android:thumb="@drawable/layout_switch_thumb" />
 
-            </LinearLayout>
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:orientation="horizontal">
 
                 <EditText
                     android:id="@+id/editTextNumber"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:inputType="number"
-                    android:hint="전화번호" />
+                    android:layout_height="match_parent"
+                    android:layout_weight="5"
+                    android:cursorVisible="false"
+                    android:background="@drawable/layout_addnum_list_bg"
+                    android:layout_margin="10dp"
+                    android:paddingLeft="15dp"
+                    android:hint="전화번호"
+                    android:inputType="number" />
 
-                <Button
+                <ImageButton
                     android:id="@+id/buttonAdd"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/ic_baseline_add_24"
                     android:text="Button" />
 
             </LinearLayout>
@@ -87,8 +103,7 @@
                 android:id="@+id/numberListLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-            </LinearLayout>
+                android:orientation="vertical"></LinearLayout>
 
         </LinearLayout>
 

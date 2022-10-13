@@ -69,38 +69,73 @@
                 android:text="TextView"
                 android:gravity="center_horizontal" />
 
-            <Button
+            <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/buttonSTT"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_marginStart="20dp"
-                android:layout_weight="2"
-                android:textColor="#ffffff"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
                 android:layout_marginTop="15dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="15dp"
-                android:background="@drawable/preety_button"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:scaleType="centerCrop"
                 android:elevation="10dp"
-                android:textSize="20dp"
-                android:fontFamily="@font/baemin"
-                android:text="텍스트로 변환하기" />
+                android:src="@drawable/sttimage"
+                android:clickable="true"
+                android:layout_weight="3"
+                app:riv_corner_radius_top_left="50dp"
+                app:riv_corner_radius_top_right="50dp"/>
 
-            <Button
+            <TextView
+                android:id="@+id/STTTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:background="@drawable/background_textview"
+                android:textColor="#ffffff"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="30dp"
+                android:layout_weight="4"
+                android:elevation="10dp"
+                android:textSize="30dp"
+                android:padding="5dp"
+                android:fontFamily="@font/baemin"
+                android:text="너 말, 하나도 놓치지 않을꺼야!" />
+
+            <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/buttonDrugAlarm"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_marginStart="20dp"
-                android:layout_weight="2"
-                android:textColor="#ffffff"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
                 android:layout_marginTop="15dp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginBottom="15dp"
-                android:background="@drawable/preety_button"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:scaleType="centerCrop"
                 android:elevation="10dp"
-                android:textSize="20dp"
-                android:fontFamily="@font/baemin"
-                android:text="약 알람" />
+                android:src="@drawable/alarmclock"
+                android:clickable="true"
+                android:layout_weight="3"
+                app:riv_corner_radius_top_left="50dp"
+                app:riv_corner_radius_top_right="50dp"/>
 
+            <TextView
+                android:id="@+id/alarmTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:background="@drawable/background_textview"
+                android:textColor="#ffffff"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginBottom="30dp"
+                android:layout_weight="4"
+                android:elevation="10dp"
+                android:textSize="30dp"
+                android:padding="5dp"
+                android:fontFamily="@font/baemin"
+                android:text="약 복용 잊지 마세요!" />
 
 
             <com.makeramen.roundedimageview.RoundedImageView
@@ -130,6 +165,7 @@
                 android:textColor="#ffffff"
                 android:layout_marginRight="15dp"
                 android:layout_marginLeft="15dp"
+                android:layout_marginBottom="30dp"
                 android:layout_weight="4"
                 android:elevation="10dp"
                 android:textSize="30dp"

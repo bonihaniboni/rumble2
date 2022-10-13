@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/floatactivityback"
     tools:context=".FloatActivity">
 
     <LinearLayout
@@ -27,16 +28,31 @@
     <Button
         android:id="@+id/buttonOK"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
+        android:textColor="#000000"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/preety_button"
+        android:elevation="10dp"
         android:textSize="30sp"
+        android:fontFamily="@font/baemin"
         android:text="괜찮아요" />
 
     <Button
         android:id="@+id/buttonAlert"
-        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
+        android:textColor="#000000"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/preety_button"
+        android:elevation="10dp"
         android:textSize="30sp"
+        android:fontFamily="@font/baemin"
         android:text="신고가 필요해요" />
 
     <TextView
@@ -47,6 +63,7 @@
         android:textAlignment="center"
         android:text="0초 후 자동 신고"
         android:textSize="30sp"
+        android:fontFamily="@font/baemin"
         android:gravity="center_horizontal" />
 
     <LinearLayout

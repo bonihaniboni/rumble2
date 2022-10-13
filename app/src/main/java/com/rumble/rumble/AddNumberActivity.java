@@ -1,20 +1,27 @@
 package com.rumble.rumble;
 
+import androidx.annotation.Dimension;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,8 +34,9 @@ public class AddNumberActivity extends AppCompatActivity {
 
     private LinearLayout numberListLayout;
     private EditText editTextNumber;
-    private Button buttonAdd;
+    private ImageButton buttonAdd;
     private Switch switchService;
+    private TextView switchtextview;
 
     private DBHelper dbHelper;
 
@@ -52,8 +60,9 @@ public class AddNumberActivity extends AppCompatActivity {
     private void initView() {
         numberListLayout = (LinearLayout) findViewById(R.id.numberListLayout);
         editTextNumber = (EditText) findViewById(R.id.editTextNumber);
-        buttonAdd = (Button)findViewById(R.id.buttonAdd);
+        buttonAdd = (ImageButton)findViewById(R.id.buttonAdd);
         switchService = (Switch)findViewById(R.id.switchService);
+        switchtextview = (TextView) findViewById(R.id.switchtextview);
     }
 
     private void init() {
@@ -65,6 +74,7 @@ public class AddNumberActivity extends AppCompatActivity {
         TextView textViewTitle = new TextView(this);
         textViewTitle.setText("번호 리스트");
         textViewTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+        //textViewTitle.setBackgroundColor(Color.parseColor("#000000"));
         numberListLayout.addView(textViewTitle);
 
         List<String> list = dbHelper.getResult();
@@ -73,6 +83,20 @@ public class AddNumberActivity extends AppCompatActivity {
             TextView textView = new TextView(this);
             textView.setText(phone);
             textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+            // 번호 리스트 스타일 설정
+            textView.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.layout_addnum_list_bg));
+            textView.setTextSize(Dimension.SP, 30);
+            //textView.setGravity(Gravity.CENTER);
+            textView.setPadding(50,10,10,10);
+            int SIZE = 15; // 원하는 사이즈
+            float scale = textView.getResources().getDisplayMetrics().density;
+            int startDP = (int) (SIZE * scale);
+            int topDP = (int) (SIZE * scale);
+            int rightDP = (int) (SIZE * scale);
+            int bottomDP = (int) (SIZE * scale);
+            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams( LinearLayout.LayoutParams.MATCH_PARENT, GridLayout.LayoutParams.MATCH_PARENT);
+            layoutParams.setMargins(startDP, topDP, rightDP, bottomDP);
+            textView.setLayoutParams(layoutParams);
 
             textView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
@@ -150,18 +174,24 @@ public class AddNumberActivity extends AppCompatActivity {
 
         if (flag) {
             switchService.setChecked(true);
-            switchService.setText("넘어짐 감지 서비스 활성화");
+            switchService.setText("켜짐");
+            switchtextview.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.layout_switch_bg));
+            switchService.setTextColor(Color.parseColor("#ffffff"));
         }
         else {
             switchService.setChecked(false);
-            switchService.setText("넘어짐 감지 서비스 비활성화");
+            switchService.setText("꺼짐");
+            switchtextview.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.layout_switch_bgoff));
+            switchService.setTextColor(Color.parseColor("#000000"));
         }
 
         switchService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(switchService.isChecked()) {
-                    switchService.setText("넘어짐 감지 서비스 활성화");
+                    switchService.setText("켜짐");
+                    switchtextview.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.layout_switch_bg));
+                    switchService.setTextColor(Color.parseColor("#ffffff"));
 
                     // 넘어짐감지 백그라운드 쓰레드 유지
                     Intent intentse = new Intent(getApplicationContext(),FallService.class);
@@ -173,7 +203,9 @@ public class AddNumberActivity extends AppCompatActivity {
                     }
                 }
                 else {
-                    switchService.setText("넘어짐 감지 서비스 비활성화");
+                    switchService.setText("꺼짐");
+                    switchtextview.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.layout_switch_bgoff));
+                    switchService.setTextColor(Color.parseColor("#000000"));
 
                     //((FallService)FallService.mContext).stopService();
                     Intent intentse = new Intent(getApplicationContext(),FallService.class);

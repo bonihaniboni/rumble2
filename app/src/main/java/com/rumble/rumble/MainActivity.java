@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     String url = "https://health.chosun.com/"; // 건강정보 가져 올 웹사이트
     String healthlink; // 크롤링
     TextView webtitleTextView;
-    ImageView webimageImageView;
+    ImageView webimageImageView, buttonAlarm, buttonSTT;
     String articlelink;
 
     // 만보기 관련 변수
@@ -108,8 +108,8 @@ public class MainActivity extends AppCompatActivity {
         final Bundle bundle = new Bundle();
 
         FloatingActionButton buttonfallsetting = findViewById(R.id.buttonFallsetting);
-        Button buttonSTT = (Button) findViewById(R.id.buttonSTT);
-        Button buttonAlarm = (Button) findViewById(R.id.buttonDrugAlarm);
+        buttonSTT = findViewById(R.id.buttonSTT);
+        buttonAlarm = findViewById(R.id.buttonDrugAlarm);
 
         buttonfallsetting.setOnClickListener(new View.OnClickListener() {
             @Override
