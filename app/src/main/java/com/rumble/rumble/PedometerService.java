@@ -31,7 +31,7 @@ public class PedometerService extends Service implements SensorEventListener {
 
     // 만보기 관련 변수
     private TextView textViewWalk;
-    private int countWalk = 0;
+    public int countWalk = 0;
     private SensorManager sensorManager;
     private Sensor stepCountSensor;
 
@@ -40,7 +40,7 @@ public class PedometerService extends Service implements SensorEventListener {
 
     public PedometerService() {
         mContext = this;
-        Log.d("PedometerService", "PedometerService init");
+        Log.d("PedometerService", "" + mContext);
     }
 
 
@@ -55,8 +55,6 @@ public class PedometerService extends Service implements SensorEventListener {
 
             notification.setContentText(Integer.toString(countWalk));
             startForeground(1, notification.build());
-
-            processCommand();
         }
     }
 
@@ -68,6 +66,7 @@ public class PedometerService extends Service implements SensorEventListener {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        mContext = this;
         createNotificationChannel();
 
 
@@ -94,9 +93,6 @@ public class PedometerService extends Service implements SensorEventListener {
 
         sensorManager.registerListener(this, stepCountSensor, SensorManager.SENSOR_DELAY_FASTEST);
 
-
-        processCommand(); // 인텐트로 값 전달 시도
-
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -117,29 +113,9 @@ public class PedometerService extends Service implements SensorEventListener {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    // 인텐트로 값 전달 시도
-    private void processCommand() {
-        //Log.d("WalkingChecker", "intent : " + intent.toString());
-
-        Log.d("test","값 전송");
-        String name = "ab";
-        String show = Integer.toString(countWalk);
-
-        Intent showIntent = new Intent(getApplicationContext(), MainActivity.class);
-
-        showIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-                Intent.FLAG_ACTIVITY_SINGLE_TOP |
-                Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-        showIntent.putExtra("command", show);
-        //Log.d("test",showIntent);
-        showIntent.putExtra("name", name + " from service.");
-        startActivity(showIntent); // Service에서 Activity로 데이터를 전달
-    }
-
     @Override
     public void onDestroy(){
-        Log.d("PedometerService", "PedometerService");
+        Log.d("FallService", "PedometerService destroy");
         stopForeground(true);
         stopSelf();
 

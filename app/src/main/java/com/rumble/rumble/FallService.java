@@ -30,6 +30,8 @@ public class FallService extends Service implements SensorEventListener {
 
     static final String CHANNEL_ID = "channelId";
 
+    NotificationCompat.Builder notification;
+
     /*
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
@@ -42,7 +44,6 @@ public class FallService extends Service implements SensorEventListener {
     private final int PERIODIC_EVENT_TIMEOUT = 3000;
 
     private Timer fuseTimer = new Timer();
-    private int sendCount = 0;
     private char sentRecently = 'N';
 
     //Three Sensor Fusion - Variables:
@@ -339,15 +340,14 @@ public class FallService extends Service implements SensorEventListener {
 
         Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+        notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("알림 타이틀")
                 .setContentText("알림 설명")
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentIntent(pendingIntent)
-                .build();
+                .setContentIntent(pendingIntent);
 
 
-        startForeground(1, notification);
+        startForeground(1, notification.build());
 
         //선을 나타낼 수 있는 가속도 센서 선택 등록
         /*
@@ -395,15 +395,27 @@ public class FallService extends Service implements SensorEventListener {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
+    public void onStopService() {
+        Log.d("FallService", "onStopService");
+        stopForeground(true);
+        stopSelf();
+
+        senSensorManager.unregisterListener(this);
+    }
+
     @Override
     public void onDestroy(){
+        Log.d("FallService", "destroy");
+        /*
         Log.d("FallService", "onDestroy");
         stopForeground(true);
         stopSelf();
 
         //mSensorManager.unregisterListener(this, mAccelerometer);
-        senSensorManager.unregisterListener(this);
-        sendCount = 0;
+        senSensorManager.unregisterListener(this); */
+
+        stopForeground(true);
+        stopSelf();
 
         super.onDestroy();
     }

@@ -29,10 +29,27 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    public void insert(String phoneNumber) {
+    private boolean is_ok(SQLiteDatabase db, String phoneNumber) {
+        if(phoneNumber.length() != 11) return false;
+
+        Cursor cursor = db.rawQuery("SELECT * FROM Person", null);
+        while(cursor.moveToNext()) {
+            if(phoneNumber.equals(cursor.getString(0))) return false;
+        }
+
+        return true;
+    }
+
+    public boolean insert(String phoneNumber) {
         SQLiteDatabase db = getWritableDatabase();
+        if(!is_ok(db, phoneNumber)) {
+            db.close();
+            return false;
+        }
+
         db.execSQL("INSERT INTO Person VALUES('" + phoneNumber + "')");
         db.close();
+        return true;
     }
 
     public void Delete(String phoneNumber) {

@@ -136,19 +136,12 @@ public class AddNumberActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String phoneNumber = editTextNumber.getText().toString();
-                dbHelper.insert(phoneNumber);
-                setLayout();
-
-//                String sms = "위험 감지 (테스트용)";
-//                Log.d("LogNumber", phoneNumber);
-//
-//                try {
-//                    SmsManager smsManager = SmsManager.getDefault();
-//                    smsManager.sendTextMessage(phoneNumber, null, sms, null, null);
-//
-//                } catch (Exception e) {
-//                    Toast.makeText(getApplicationContext(), "failed to send sms", Toast.LENGTH_LONG).show();
-//                }
+                if(dbHelper.insert(phoneNumber)) {
+                    Toast.makeText(getApplicationContext(), "성공적으로 번호를 추가했습니다.", Toast.LENGTH_LONG).show();
+                    setLayout();
+                } else {
+                    Toast.makeText(getApplicationContext(), "번호를 다시 확인해주세요.", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
@@ -207,7 +200,14 @@ public class AddNumberActivity extends AppCompatActivity {
                     switchtextview.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.layout_switch_bgoff));
                     switchService.setTextColor(Color.parseColor("#000000"));
 
-                    //((FallService)FallService.mContext).stopService();
+                    /*
+                    try {
+                        ((FallService)FallService.mContext).onStopService();
+                    } catch (Exception e) {
+                        Log.d("FallService", "" + ((FallService)FallService.mContext));
+                    }
+                    */
+
                     Intent intentse = new Intent(getApplicationContext(),FallService.class);
                     stopService(intentse);
                 }

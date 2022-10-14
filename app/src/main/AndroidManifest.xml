@@ -23,12 +23,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         android:usesCleartextTraffic="true">
+        <receiver
+            android:name=".PedometerReceiver"
+            android:enabled="true"
+            android:exported="true"></receiver>
 
         <service
             android:name=".PedometerService"
             android:enabled="true"
             android:exported="true"
-            android:process=":myservice1"></service>
+            android:process=":myservice1" />
         <service
             android:name=".FallService"
             android:enabled="true"
@@ -74,8 +78,6 @@
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme" />
         <activity android:name=".FallActivity" />
-
-
     </application>
 
 </manifest>

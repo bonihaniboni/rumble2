@@ -197,27 +197,6 @@ public class MainActivity extends AppCompatActivity {
         return format.format(currentTime);
     }
 
-    // 인텐트로 값 수신
-    private void processIntent(Intent intent) {
-        if (intent != null) {
-            String command = intent.getStringExtra("command");
-            String name = intent.getStringExtra("name");
-            Log.d("test","수신"); // 여기까진 들어가진다 즉 인텐트가 null값이 아니다
-            //Log.d("test",command); // 하지만 열어보면 null
-            //Toast.makeText(this, "command : " + command + ", name : " + name, Toast.LENGTH_LONG).show();
-            if(command != null) textViewWalk.setText(command);
-            Log.d("WalkingChecker", "proceddIntent");
-            Log.d("WalkingChecker", "after command : " + command);
-        }
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        processIntent(intent);
-
-        super.onNewIntent(intent);
-    }
-
     // 만보기 권한 체크
     private void preCheck() {
         // 권한 체크 뭔가 잘 안됨 -> 수정 필요
@@ -227,13 +206,5 @@ public class MainActivity extends AppCompatActivity {
                 requestPermissions(new String[]{Manifest.permission.ACTIVITY_RECOGNITION}, 0);
             }
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        //Log.d("WalkingChecker", "onResume");
-        Log.d("WalkingChecker", textViewWalk.getText().toString());
-        textViewWalk.invalidate();
     }
 }
