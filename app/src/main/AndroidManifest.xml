@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.rumble.rumble">
 
     <!-- 인터넷 오디오 권한 추가 -->
@@ -37,8 +38,7 @@
             android:name=".FallService"
             android:enabled="true"
             android:exported="true"
-            android:process=":myservice"
-            android:stopWithTask="true" />
+            android:process=":myservice" />
 
         <activity
             android:name=".FloatActivity"

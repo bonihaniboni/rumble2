@@ -19,13 +19,15 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
+import androidx.lifecycle.LifecycleObserver;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class FallService extends Service implements SensorEventListener {
+public class FallService extends Service implements SensorEventListener{
     public static Context mContext;
 
     static final String CHANNEL_ID = "channelId";
@@ -312,10 +314,24 @@ public class FallService extends Service implements SensorEventListener {
                                 //Toast.makeText(IService2.this.getApplicationContext(), "Sensed Danger! Sending SMS", Toast.LENGTH_SHORT).show();
                                 //Toast.makeText(getApplicationContext(), "Danger!", Toast.LENGTH_LONG).show();
 
-                                Intent intent = new Intent(getApplicationContext(), FloatActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                Log.d("FallService", "" + getApplicationContext());
+
+                                //Intent intent = new Intent(getApplicationContext(), FloatActivity.class);
+                                //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
                                 //intent.setFlags(Intent.FLAG_FROM_BACKGROUND);
-                                startActivity(intent);
+                                //startActivity(intent);
+
+                                Intent intent = new Intent(getApplicationContext(), FloatActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                PendingIntent pendingIntent =
+                                        PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
+                                try {
+                                    pendingIntent.send();
+                                    Log.d("FallService", "pending success");
+                                } catch (PendingIntent.CanceledException e) {
+                                    Log.d("FallService", "pending error" + e);
+                                }
                             }
                         });
                     }
@@ -341,13 +357,13 @@ public class FallService extends Service implements SensorEventListener {
         Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
         notification = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle("알림 타이틀")
-                .setContentText("알림 설명")
+                .setContentTitle("넘어짐 감지 활성화 중")
+                .setContentText("넘어짐 감지 서비스를 활성화했습니다")
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentIntent(pendingIntent);
 
 
-        startForeground(1, notification.build());
+        startForeground(2, notification.build());
 
         //선을 나타낼 수 있는 가속도 센서 선택 등록
         /*
@@ -395,14 +411,6 @@ public class FallService extends Service implements SensorEventListener {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    public void onStopService() {
-        Log.d("FallService", "onStopService");
-        stopForeground(true);
-        stopSelf();
-
-        senSensorManager.unregisterListener(this);
-    }
-
     @Override
     public void onDestroy(){
         Log.d("FallService", "destroy");
@@ -412,8 +420,9 @@ public class FallService extends Service implements SensorEventListener {
         stopSelf();
 
         //mSensorManager.unregisterListener(this, mAccelerometer);
-        senSensorManager.unregisterListener(this); */
+        */
 
+        senSensorManager.unregisterListener(this);
         stopForeground(true);
         stopSelf();
 
