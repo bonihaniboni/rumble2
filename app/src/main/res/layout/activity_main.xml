@@ -46,29 +46,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textViewWalk"
-                android:layout_marginTop="50dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="30sp"
-                android:textAlignment="center"
-                android:background="#D3D3D3"
-                android:text="TextView"
-                android:gravity="center_horizontal" />
-            <TextView
-                android:id="@+id/datedate"
-                android:layout_marginTop="50dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="30sp"
-                android:textAlignment="center"
-                android:background="#D3D3D3"
-                android:text="TextView"
-                android:gravity="center_horizontal" />
-
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/buttonSTT"
                 android:layout_width="match_parent"

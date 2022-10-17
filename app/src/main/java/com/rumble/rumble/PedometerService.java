@@ -74,7 +74,7 @@ public class PedometerService extends Service implements SensorEventListener {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
         notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("걸음 수")
-                .setContentText("0 걸음")
+                .setContentText(countWalk + "걸음")
               .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentIntent(pendingIntent)
                 ;

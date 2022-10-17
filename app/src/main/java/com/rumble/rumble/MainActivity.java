@@ -84,8 +84,8 @@ public class MainActivity extends AppCompatActivity {
         collapsingToolbar.setExpandedTitleTextAppearance(R.style.ExpandedAppBar);
 
         // 만보기 텍스트뷰
-        textViewWalk = (TextView)findViewById(R.id.textViewWalk);
-        datetextview = (TextView)findViewById(R.id.datedate);
+        //textViewWalk = (TextView)findViewById(R.id.textViewWalk);
+        //datetextview = (TextView)findViewById(R.id.datedate);
         preferencesWalk = getSharedPreferences("Walk", MODE_PRIVATE);
         preCheck();
 
@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         else{
 
         }
-        datetextview.setText(savedate);
+        //datetextview.setText(savedate);
 
 
         webtitleTextView = findViewById(R.id.webTextView);
