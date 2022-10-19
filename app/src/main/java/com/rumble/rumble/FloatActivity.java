@@ -89,7 +89,7 @@ public class FloatActivity extends AppCompatActivity {
         for(String phoneNumber : list) {
             ++count;
 
-            String sms = "위험 감지 (테스트용)\n\n";
+            String sms = "넘어짐 감지!\n\n";
             if(currentLocation != null) {
                 sms += "http://maps.google.com/?q=" + currentLocation.getLatitude() + "," + currentLocation.getLongitude();
             }
@@ -120,7 +120,7 @@ public class FloatActivity extends AppCompatActivity {
 
         dbHelper = new DBHelper(getApplicationContext(), 1);
 
-        countDownTimer = new CountDownTimer(10000, 1000) {
+        countDownTimer = new CountDownTimer(30000, 1000) {
             @Override
             public void onTick(long l) {
                 // 남은 시간 별 색깔 변경

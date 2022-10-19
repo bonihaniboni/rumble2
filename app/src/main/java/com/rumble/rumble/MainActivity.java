@@ -70,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        firstCheck();
+
         Intent itit = new Intent(this,PedometerService.class);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             startForegroundService(itit);
@@ -205,6 +207,24 @@ public class MainActivity extends AppCompatActivity {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 requestPermissions(new String[]{Manifest.permission.ACTIVITY_RECOGNITION}, 0);
             }
+        }
+    }
+
+    private void firstCheck() {
+        SharedPreferences pref = getSharedPreferences("isFirst", Activity.MODE_PRIVATE);
+        boolean first = pref.getBoolean("isFirst", false);
+        //Log.d("FirstCheck", "firstCheck()");
+
+        if(first==false) {
+            //Log.d("FirstCheck", "first");
+            SharedPreferences.Editor editor = pref.edit();
+            editor.putBoolean("isFirst", true);
+            editor.commit();
+
+            Intent intent = new Intent(this, PopUpActivity.class);
+            startActivityForResult(intent, 1);
+        } else {
+            //Log.d("FirstCheck", "not first");
         }
     }
 }
