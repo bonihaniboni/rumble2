@@ -8,6 +8,7 @@ import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
@@ -37,6 +38,8 @@ public class PedometerService extends Service implements SensorEventListener {
 
     NotificationCompat.Builder notification;
 
+    private BroadcastReceiver mReciver;
+
 
     public PedometerService() {
         mContext = this;
@@ -64,9 +67,20 @@ public class PedometerService extends Service implements SensorEventListener {
 
     }
 
+    private void setReceiver() {
+        //mReciver = new PedometerReceiver();
+        mReciver = new InnerCReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_DATE_CHANGED);
+        filter.addAction(Intent.ACTION_POWER_CONNECTED);
+        registerReceiver(mReciver, filter);
+    }
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         mContext = this;
+        setReceiver();
+
         createNotificationChannel();
 
 
@@ -116,9 +130,23 @@ public class PedometerService extends Service implements SensorEventListener {
     @Override
     public void onDestroy(){
         Log.d("FallService", "PedometerService destroy");
+        //unregisterReceiver(mReciver);
         stopForeground(true);
         stopSelf();
+        unregisterReceiver(mReciver);
 
         super.onDestroy();
+    }
+
+    public class InnerCReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (Intent.ACTION_DATE_CHANGED.equals(intent.getAction())) {
+                countWalk = 0;
+                notification.setContentText(Integer.toString(countWalk));
+                startForeground(1, notification.build());
+            }
+        }
     }
 }

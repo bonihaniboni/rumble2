@@ -1,7 +1,9 @@
 package com.rumble.rumble;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
@@ -9,6 +11,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -46,7 +49,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.security.auth.callback.PasswordCallback;
+
 public class MainActivity extends AppCompatActivity {
+
+    final int PERMISSION = 1; // 권한 변수
 
     String url = "https://health.chosun.com/"; // 건강정보 가져 올 웹사이트
     String healthlink; // 크롤링
@@ -199,13 +206,63 @@ public class MainActivity extends AppCompatActivity {
         return format.format(currentTime);
     }
 
+    private void setAlert() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("권한 설정")
+                .setMessage("권한 거절 시 앱을 실행할 수 없습니다.")
+                .setPositiveButton("권한 설정하러 가기", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        try {
+                            Intent intent = new Intent(Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS)
+                                    .setData(Uri.parse("package:"+getPackageName()));
+                            startActivity(intent);
+                        } catch(Exception e) {
+                            Intent intent = new Intent(Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS);
+                            startActivity(intent);
+                        }
+                    }
+                })
+                .setNegativeButton("취소하기", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(getApplicationContext(), "거절", Toast.LENGTH_LONG).show();
+                    }
+                })
+                .create()
+                .show();
+    }
+
     // 만보기 권한 체크
     private void preCheck() {
-        // 권한 체크 뭔가 잘 안됨 -> 수정 필요
-        if(ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_GRANTED) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions(new String[]{Manifest.permission.ACTIVITY_RECOGNITION}, 0);
+        if (Build.VERSION.SDK_INT >= 23) {
+            // 권한 없을 시 권한 요청
+            if(ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_DENIED) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.SEND_SMS}, PERMISSION);
+            }
+
+            int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS);
+            if(permissionCheck == PackageManager.PERMISSION_DENIED) {
+                setAlert();
+            }
+
+            if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_DENIED) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACTIVITY_RECOGNITION}, PERMISSION);
+            }
+            permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACTIVITY_RECOGNITION);
+            if(permissionCheck == PackageManager.PERMISSION_DENIED) {
+                setAlert();
+            }
+
+            if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION);
+            }
+            permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+            if(permissionCheck == PackageManager.PERMISSION_DENIED) {
+                setAlert();
             }
         }
     }

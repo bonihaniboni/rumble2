@@ -33,9 +33,14 @@
         </activity>
 
         <receiver
-            android:name=".PedometerReceiver"
+            android:name=".PedometerService$InnerCReceiver"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true"
+            tools:ignore="Instantiatable">
+            <intent-filter>
+                <action android:name="android.intent.action.DATE_CHANGED" />
+            </intent-filter>
+        </receiver>
 
         <service
             android:name=".PedometerService"
