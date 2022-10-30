@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 public class PedometerService extends Service implements SensorEventListener {
@@ -138,14 +139,32 @@ public class PedometerService extends Service implements SensorEventListener {
         super.onDestroy();
     }
 
+    private void sendAlarmOnCountWalk() {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "3")
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle("걸음수가 " + countWalk + "이군요!")
+                .setContentText("분발하세요~")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
+        notificationManagerCompat.notify(3, builder.build());
+
+    }
+
     public class InnerCReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
             if (Intent.ACTION_DATE_CHANGED.equals(intent.getAction())) {
+                //sendAlarmOnCountWalk();
+
                 countWalk = 0;
                 notification.setContentText(Integer.toString(countWalk));
                 startForeground(1, notification.build());
+            }
+
+            if (Intent.ACTION_POWER_CONNECTED.equals(intent.getAction())) {
+                sendAlarmOnCountWalk();
             }
         }
     }
