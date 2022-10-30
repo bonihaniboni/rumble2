@@ -28,6 +28,7 @@ import android.os.PowerManager;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -58,8 +59,9 @@ public class MainActivity extends AppCompatActivity {
     String url = "https://health.chosun.com/"; // 건강정보 가져 올 웹사이트
     String healthlink; // 크롤링
     TextView webtitleTextView;
-    ImageView webimageImageView, buttonAlarm, buttonSTT;
+    ImageView webimageImageView, buttonAlarm, buttonSTT, buttonhelp;
     String articlelink;
+    private CustomDialog customDialog;
 
     // 만보기 관련 변수
     SharedPreferences preferences; //
@@ -119,12 +121,21 @@ public class MainActivity extends AppCompatActivity {
         FloatingActionButton buttonfallsetting = findViewById(R.id.buttonFallsetting);
         buttonSTT = findViewById(R.id.buttonSTT);
         buttonAlarm = findViewById(R.id.buttonDrugAlarm);
+        buttonhelp = findViewById(R.id.buttonhelp);
+
 
         buttonfallsetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), AddNumberActivity.class);
                 startActivity(intent);
+            }
+        });
+        buttonhelp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                customDialog = new CustomDialog(MainActivity.this);
+                customDialog.show();
             }
         });
         buttonSTT.setOnClickListener(new View.OnClickListener() {
