@@ -25,6 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@drawable/preety_button"
             android:textSize="20sp"
             android:text="번호 지정하기" />
 
@@ -32,6 +33,7 @@
             android:id="@+id/buttonNo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/preety_button"
             android:layout_weight="1"
             android:textSize="20sp"
             android:text="괜찮아요" />
