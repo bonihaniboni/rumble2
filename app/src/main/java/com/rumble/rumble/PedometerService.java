@@ -73,7 +73,7 @@ public class PedometerService extends Service implements SensorEventListener {
         mReciver = new InnerCReceiver();
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_DATE_CHANGED);
-        filter.addAction(Intent.ACTION_POWER_CONNECTED);
+        //filter.addAction(Intent.ACTION_POWER_CONNECTED);
         registerReceiver(mReciver, filter);
     }
 
@@ -140,15 +140,21 @@ public class PedometerService extends Service implements SensorEventListener {
     }
 
     private void sendAlarmOnCountWalk() {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "3")
+        String content = "오늘 하루 건강하게 마무리하셨습니다!";
+        if (countWalk < 2000) {
+            content = "내일은 더 많이 걸으셔야해요!";
+        }
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("걸음수가 " + countWalk + "이군요!")
-                .setContentText("분발하세요~")
+                .setContentTitle("오늘 총 걸음 수는 " + countWalk + "걸음")
+                .setContentText(content)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
-        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
-        notificationManagerCompat.notify(3, builder.build());
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
 
+        // notificationId is a unique int for each notification that you must define
+        notificationManager.notify(3, builder.build());
     }
 
     public class InnerCReceiver extends BroadcastReceiver {
@@ -156,7 +162,7 @@ public class PedometerService extends Service implements SensorEventListener {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (Intent.ACTION_DATE_CHANGED.equals(intent.getAction())) {
-                //sendAlarmOnCountWalk();
+                sendAlarmOnCountWalk();
 
                 countWalk = 0;
                 notification.setContentText(Integer.toString(countWalk));
@@ -164,7 +170,7 @@ public class PedometerService extends Service implements SensorEventListener {
             }
 
             if (Intent.ACTION_POWER_CONNECTED.equals(intent.getAction())) {
-                sendAlarmOnCountWalk();
+                //sendAlarmOnCountWalk();
             }
         }
     }
