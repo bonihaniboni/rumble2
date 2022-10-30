@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.PowerManager;
@@ -41,11 +42,15 @@ public class FloatActivity extends AppCompatActivity {
 
     private Location currentLocation;
 
+    MediaPlayer mediaPlayer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_float);
 
+        mediaPlayer = MediaPlayer.create(this, R.raw.emergency_alert);
+        mediaPlayer.start();
         preCheck();
         initView();
         init();
@@ -159,6 +164,7 @@ public class FloatActivity extends AppCompatActivity {
         buttonOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mediaPlayer.pause();
                 countDownTimer.cancel();
                 finish();
             }
