@@ -75,7 +75,7 @@ public class FloatActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Location location) {
                         if (location == null) {
-                            Toast.makeText(getApplicationContext(), "위치를 불러오는데 실패했습니다", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "권한이 없어서 위치를 불러오는데 실패했습니다", Toast.LENGTH_LONG).show();
                             return;
                         }
 
@@ -108,7 +108,7 @@ public class FloatActivity extends AppCompatActivity {
                 smsManager.sendTextMessage(phoneNumber, null, sms, null, null);
 
             } catch (Exception e) {
-                Toast.makeText(getApplicationContext(), "failed to send sms", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "권한이 없어서 메시지를 못 보냅니다.", Toast.LENGTH_LONG).show();
             }
         }
 

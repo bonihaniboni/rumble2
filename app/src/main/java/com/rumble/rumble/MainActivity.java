@@ -1,5 +1,6 @@
 package com.rumble.rumble;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,6 +38,8 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
 import com.rumble.rumble.medicine.MedicineActivity;
 
 import org.jsoup.Jsoup;
@@ -48,6 +51,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import javax.security.auth.callback.PasswordCallback;
@@ -74,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
 
     SharedPreferences preferencesWalk;
 
+    private PermissionSupport permission;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
         //textViewWalk = (TextView)findViewById(R.id.textViewWalk);
         //datetextview = (TextView)findViewById(R.id.datedate);
         preferencesWalk = getSharedPreferences("Walk", MODE_PRIVATE);
-        preCheck();
+        //preCheck();
 
         preferences = getSharedPreferences("pref", Activity.MODE_PRIVATE);
         editor = preferences.edit();
@@ -237,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
                 .setNegativeButton("취소하기", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Toast.makeText(getApplicationContext(), "거절", Toast.LENGTH_LONG).show();
+                        ((MainActivity)getApplicationContext()).finish();
                     }
                 })
                 .create()
@@ -248,33 +254,39 @@ public class MainActivity extends AppCompatActivity {
     private void preCheck() {
         if (Build.VERSION.SDK_INT >= 23) {
             // 권한 없을 시 권한 요청
-            if(ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_DENIED) {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.SEND_SMS}, PERMISSION);
+
+            PermissionListener permissionListener = new PermissionListener() {
+                @Override
+                public void onPermissionGranted() {
+
+                }
+
+                @Override
+                public void onPermissionDenied(List<String> deniedPermissions) {
+
+                }
+            };
+
+            TedPermission.with(this)
+                    .setPermissionListener(permissionListener)
+                    .setRationaleMessage("앱 기능을 위해 일부 권한이 필요합니다.")
+                    .setDeniedMessage("권한 거부시 앱 실행이 안됩니다.")
+                    .setPermissions(Manifest.permission.ACCESS_FINE_LOCATION,
+                            Manifest.permission.ACTIVITY_RECOGNITION,
+                            Manifest.permission.SEND_SMS)
+                    .check();
+
+
+            /*
+            permission = new PermissionSupport(this, this);
+            permission.requestPermission();
+
+            if(!permission.checkPermission()) {
+                permission.requestPermission();
             }
 
-            int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS);
-            if(permissionCheck == PackageManager.PERMISSION_DENIED) {
-                setAlert();
-            }
+             */
 
-            if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_DENIED) {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACTIVITY_RECOGNITION}, PERMISSION);
-            }
-            permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACTIVITY_RECOGNITION);
-            if(permissionCheck == PackageManager.PERMISSION_DENIED) {
-                setAlert();
-            }
-
-            if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_DENIED) {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION);
-            }
-            permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
-            if(permissionCheck == PackageManager.PERMISSION_DENIED) {
-                setAlert();
-            }
         }
     }
 
@@ -294,5 +306,16 @@ public class MainActivity extends AppCompatActivity {
         } else {
             //Log.d("FirstCheck", "not first");
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        preCheck();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 }
