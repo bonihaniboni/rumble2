@@ -311,7 +311,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        preCheck();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if ((checkSelfPermission(Manifest.permission.SEND_SMS)
+                    == PackageManager.PERMISSION_GRANTED) && (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED)) {
+                //preCheck();
+            }
+            else{
+                preCheck();
+            }
+        }
+
     }
 
     @Override
