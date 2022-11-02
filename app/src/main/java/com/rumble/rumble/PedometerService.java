@@ -142,7 +142,7 @@ public class PedometerService extends Service implements SensorEventListener {
 
     private void sendAlarmOnCountWalk() {
         String content = "오늘 하루 건강하게 마무리하셨습니다!";
-        if (countWalk < 2000) {
+        if (countWalk < 4000) {
             content = "내일은 더 많이 걸으셔야해요!";
         }
 
@@ -173,7 +173,7 @@ public class PedometerService extends Service implements SensorEventListener {
                         notification.setContentText(Integer.toString(countWalk));
                         startForeground(1, notification.build());
                     }
-                }, 500);
+                }, 2000);
             }
 
             if (Intent.ACTION_POWER_CONNECTED.equals(intent.getAction())) {
