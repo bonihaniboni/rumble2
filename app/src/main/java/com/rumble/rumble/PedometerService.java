@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
+import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
 import android.hardware.Sensor;
@@ -164,9 +165,15 @@ public class PedometerService extends Service implements SensorEventListener {
             if (Intent.ACTION_DATE_CHANGED.equals(intent.getAction())) {
                 sendAlarmOnCountWalk();
 
-                countWalk = 0;
-                notification.setContentText(Integer.toString(countWalk));
-                startForeground(1, notification.build());
+                Handler mHandler = new Handler();
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        countWalk = 0;
+                        notification.setContentText(Integer.toString(countWalk));
+                        startForeground(1, notification.build());
+                    }
+                }, 500);
             }
 
             if (Intent.ACTION_POWER_CONNECTED.equals(intent.getAction())) {
