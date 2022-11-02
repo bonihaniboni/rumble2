@@ -91,7 +91,7 @@ public class PedometerService extends Service implements SensorEventListener {
         notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("걸음 수")
                 .setContentText(countWalk + "걸음")
-              .setSmallIcon(R.mipmap.ic_launcher)
+              .setSmallIcon(R.mipmap.ic_main_round)
                 .setContentIntent(pendingIntent)
                 ;
 
@@ -147,7 +147,7 @@ public class PedometerService extends Service implements SensorEventListener {
         }
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.mipmap.ic_main_round)
                 .setContentTitle("오늘 총 걸음 수는 " + countWalk + "걸음")
                 .setContentText(content)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);

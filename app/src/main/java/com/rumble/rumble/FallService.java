@@ -359,7 +359,7 @@ public class FallService extends Service implements SensorEventListener{
         notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("넘어짐 감지 활성화 중")
                 .setContentText("넘어짐 감지 서비스를 활성화했습니다")
-                .setSmallIcon(R.mipmap.ic_launcher)
+                .setSmallIcon(R.mipmap.ic_main_round)
                 .setContentIntent(pendingIntent);
 
 
