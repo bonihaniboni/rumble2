@@ -22,6 +22,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.lifecycle.LifecycleObserver;
 
 import java.util.Timer;
@@ -332,6 +333,8 @@ public class FallService extends Service implements SensorEventListener{
                                 } catch (PendingIntent.CanceledException e) {
                                     Log.d("FallService", "pending error" + e);
                                 }
+
+                                //sendAlarmOnFallDetection();
                             }
                         });
                     }
@@ -342,6 +345,24 @@ public class FallService extends Service implements SensorEventListener{
             gyroMatrix = getRotationMatrixFromOrientation(fusedOrientation);
             System.arraycopy(fusedOrientation, 0, gyroOrientation, 0, 3);
         }
+    }
+
+    private void sendAlarmOnFallDetection() {
+        Intent fullScreenIntent = new Intent(this, FloatActivity.class);
+        PendingIntent fullScreenPendingIntent = PendingIntent.getActivity(getApplicationContext(), 0,
+                fullScreenIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID)
+                .setSmallIcon(R.mipmap.ic_main_round)
+                .setContentTitle("My notification")
+                .setContentText("Hello World!")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setFullScreenIntent(fullScreenPendingIntent, true);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+
+        // notificationId is a unique int for each notification that you must define
+        notificationManager.notify(4, builder.build());
     }
 
     @Override

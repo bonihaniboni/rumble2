@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         firstCheck();
+        batteryCheck();
 
         Intent itit = new Intent(this,PedometerService.class);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -305,6 +306,21 @@ public class MainActivity extends AppCompatActivity {
             startActivityForResult(intent, 1);
         } else {
             //Log.d("FirstCheck", "not first");
+        }
+    }
+
+    private void batteryCheck() {
+        PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        String packageName = getPackageName();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if(pm.isIgnoringBatteryOptimizations(packageName)) {
+
+            } else {
+                Intent intent = new Intent();
+                intent.setAction(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                intent.setData(Uri.parse("package:"+packageName));
+                startActivityForResult(intent, 0);
+            }
         }
     }
 
